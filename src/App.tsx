@@ -146,14 +146,14 @@ function TicketScreen({ data, onClose }: any) {
   return (
     <div className="w-full h-[100dvh] bg-gradient-to-b from-blue-50 to-gray-100 sm:py-8 overflow-hidden select-none font-sans">
       {/* Container simulating phone screen perfectly */}
-      <div className="w-full sm:max-w-[420px] mx-auto h-[100dvh] sm:h-[850px] sm:max-h-[min(90vh,900px)] bg-gradient-to-b from-[#e8f1fa] to-[#f4f5f7] relative overflow-hidden flex flex-col sm:rounded-[3rem] sm:border-8 sm:border-gray-900 sm:shadow-2xl">
+      <div className="w-full sm:max-w-[420px] mx-auto h-[100dvh] sm:h-[850px] sm:max-h-[min(90vh,900px)] bg-gradient-to-b from-[#ffffff] via-[#f7f9fa] to-[#eef2f5] shadow-[0_8px_30px_rgb(0,0,0,0.08)] relative overflow-hidden flex flex-col sm:rounded-[3rem] sm:border-8 sm:border-gray-900 sm:shadow-2xl">
         
         {/* Top Header Section (15% height) */}
         <div className="relative px-6 pt-10 shrink-0 text-center">
           <button onClick={onClose} className="absolute left-4 top-10 p-2 text-gray-400 hover:text-gray-800 transition-colors active:scale-95 rounded-full z-20">
             <X size={28} strokeWidth={1.5} />
           </button>
-          <h1 className="text-[26px] font-bold text-[#111] tracking-tight leading-none mb-2">
+          <h1 className="text-[26px] font-bold text-[#111] tracking-tight leading-none mb-2 drop-shadow-sm">
             {data.agencyName}
           </h1>
           <p className="text-gray-500 text-[15px] font-medium">
@@ -202,17 +202,17 @@ function TicketScreen({ data, onClose }: any) {
           </div>
           
           {/* Ticket Info */}
-          <div className="text-[17px] font-bold text-black tracking-[-0.01em] leading-snug">
+          <div className="text-[20px] font-bold text-[#111] tracking-[-0.015em] leading-snug drop-shadow-sm">
             {data.passName}
           </div>
-          <div className="text-[14px] text-gray-500 mt-[4px]">
+          <div className="text-[14.5px] font-medium text-gray-500 mt-[4px]">
             {data.location}
           </div>
           
           {/* Faint Divider */}
-          <div className="w-[90%] h-px bg-gray-200 mt-5 mb-4"></div>
+          <div className="w-[90%] h-px bg-gray-200 mt-5 mb-4 shadow-sm"></div>
           
-          <div className="text-[13px] text-gray-500">
+          <div className="text-[13px] font-medium text-gray-500">
             Expires {data.expiration}
           </div>
           
