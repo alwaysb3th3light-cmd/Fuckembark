@@ -13,6 +13,11 @@ function formatTime(date: Date) {
   return `${hours}:${mins}:${secs} ${ampm}`;
 }
 
+function formatDateDisplay(date: Date) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
 export default function App() {
   const [showConfig, setShowConfig] = useState(true);
   const [config, setConfig] = useState(() => {
@@ -142,18 +147,23 @@ function TicketScreen({ data, onClose }: any) {
   }, [data.timeOffset]);
 
   const formattedTime = formatTime(now);
+  const formattedLiveDate = formatDateDisplay(now);
+  
+  // Calculate expiration as precisely one day AFTER the current ticking date
+  const expirationDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  const formattedExp = `${formatDateDisplay(expirationDate)}, 11:59 PM`;
 
   return (
-    <div className="w-full h-[100dvh] bg-gradient-to-b from-blue-50 to-gray-100 sm:py-8 overflow-hidden select-none font-sans">
-      {/* Container simulating phone screen perfectly */}
-      <div className="w-full sm:max-w-[420px] mx-auto h-[100dvh] sm:h-[850px] sm:max-h-[min(90vh,900px)] bg-gradient-to-b from-[#ffffff] via-[#f7f9fa] to-[#eef2f5] shadow-[0_8px_30px_rgb(0,0,0,0.08)] relative overflow-hidden flex flex-col sm:rounded-[3rem] sm:border-8 sm:border-gray-900 sm:shadow-2xl">
+    <div className="w-full h-[100dvh] bg-gray-100 sm:py-8 overflow-hidden select-none font-sans">
+      {/* Container simulating phone screen perfectly - Now solid white like the authentic app */}
+      <div className="w-full sm:max-w-[420px] mx-auto h-[100dvh] sm:h-[850px] sm:max-h-[min(90vh,900px)] bg-white relative overflow-hidden flex flex-col sm:rounded-[3rem] sm:border-8 sm:border-gray-900 sm:shadow-2xl">
         
-        {/* Top Header Section */}
-        <div className="relative px-6 pt-8 shrink-0 flex items-start flex-col">
-          <button onClick={onClose} className="absolute right-4 top-6 p-2 text-gray-400 hover:text-gray-800 transition-colors active:scale-95 rounded-full z-20">
+        {/* Top Header Section - Left aligned agency logo text */}
+        <div className="relative px-6 pt-10 shrink-0 flex items-start flex-col text-left w-full">
+          <button onClick={onClose} className="absolute right-5 top-8 p-2 text-gray-300 hover:text-gray-600 transition-colors active:scale-95 rounded-full z-20">
             <X size={26} strokeWidth={2} />
           </button>
-          <h1 className="text-[28px] font-black text-black tracking-tighter leading-none mb-1">
+          <h1 className="text-[32px] font-black text-[#111] tracking-tighter leading-none mb-1.5 uppercase drop-shadow-sm">
             {data.agencyName}
           </h1>
           <p className="text-gray-500 text-[12px] font-bold tracking-widest uppercase">
@@ -161,23 +171,23 @@ function TicketScreen({ data, onClose }: any) {
           </p>
         </div>
 
-        {/* Center Animated Logo Section (Flex to center between text) */}
+        {/* Center Animated Logo Section */}
         <div className="flex-1 flex justify-center items-center min-h-[220px]">
-          <div className="relative w-[140px] h-[140px] flex justify-center items-center">
+          <div className="relative w-[160px] h-[160px] flex justify-center items-center">
             
-            {/* Subtle Tracking Rings serving as background visual reference indicators for the pulse */}
-            <div className="absolute w-[180px] h-[180px] rounded-full border-[1.5px] border-dashed border-[#89ad43] opacity-20 pointer-events-none z-0"></div>
-            <div className="absolute w-[220px] h-[220px] rounded-full border border-[#89ad43] opacity-10 pointer-events-none z-0"></div>
+            {/* Subtle Tracking Rings */}
+            <div className="absolute w-[200px] h-[200px] rounded-full border-[1.5px] border-dashed border-[#89ad43] opacity-20 pointer-events-none z-0"></div>
+            <div className="absolute w-[240px] h-[240px] rounded-full border border-[#89ad43] opacity-10 pointer-events-none z-0"></div>
 
-            {/* Outward pulsing thick rings with staggered delays for continuous dynamic ripple effect */}
+            {/* Outward pulsing rings */}
             <div className="absolute inset-[-2px] rounded-full border-[8px] border-[#89ad43] animate-pulse-ring-1 origin-center pointer-events-none"></div>
             <div className="absolute inset-[-2px] rounded-full border-[8px] border-[#89ad43] animate-pulse-ring-2 origin-center pointer-events-none"></div>
 
             {/* Expanding/Retracting Solid Green Base Layer */}
             <div className="absolute inset-[0px] rounded-full bg-[#89ad43] animate-expand-retract origin-center"></div>
             
-            {/* Fixed White Inner Circle covering the center to create a dynamic 'border' effect */}
-            <div className="absolute inset-[12px] rounded-full bg-white shadow-sm pointer-events-none z-0"></div>
+            {/* Fixed White Inner Circle */}
+            <div className="absolute inset-[24px] rounded-full bg-white shadow-sm pointer-events-none z-0"></div>
             
             {/* Exact EMBARK E Logo SVG */}
             <div className="relative z-10 w-[112px] h-[112px] flex items-center justify-center pointer-events-none">
@@ -195,26 +205,31 @@ function TicketScreen({ data, onClose }: any) {
         </div>
 
         {/* Bottom Information Section */}
-        <div className="shrink-0 pb-[6vh] text-center px-6 flex flex-col items-center">
+        <div className="shrink-0 pb-[7vh] text-center px-6 flex flex-col items-center w-full">
           
-          {/* Live Clock with extremely prominent font display */}
-          <div className="text-[2.2rem] font-bold text-[#1a1a1a] tracking-tight mb-[10px] font-mono leading-none flex items-center justify-center w-full" style={{ letterSpacing: '-0.02em' }}>
-            {formattedTime}
+          {/* Live Time (Big) and Date Segment */}
+          <div className="flex flex-col items-center mb-6 w-full">
+            <div className="text-[3.2rem] font-bold text-black tracking-tight tabular-nums leading-none mb-1.5 flex items-center justify-center w-full" style={{ letterSpacing: '-0.03em' }}>
+              {formattedTime}
+            </div>
+            <div className="text-[15px] font-bold text-gray-500 tracking-[0.05em] uppercase">
+              {formattedLiveDate}
+            </div>
           </div>
           
           {/* Ticket Info */}
-          <div className="text-[16px] font-bold text-[#111] leading-snug drop-shadow-sm">
+          <div className="text-[18px] font-bold text-black leading-snug mb-[2px]">
             {data.passName}
           </div>
-          <div className="text-[13px] font-medium text-gray-500 mt-[2px]">
+          <div className="text-[15px] font-bold text-gray-500">
             {data.location}
           </div>
           
-          {/* Faint Divider */}
-          <div className="w-[85%] h-px bg-gray-200 mt-4 mb-3 shadow-sm"></div>
+          {/* Divider */}
+          <div className="w-full h-[1.5px] bg-gray-100 mt-6 mb-5"></div>
           
-          <div className="text-[12px] font-medium text-gray-500">
-            Expires {data.expiration}
+          <div className="text-[13px] font-bold text-gray-400">
+            Expires {formattedExp}
           </div>
           
         </div>
