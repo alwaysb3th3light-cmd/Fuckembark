@@ -151,7 +151,7 @@ function TicketScreen({ data, onClose }: any) {
   
   // Calculate expiration as precisely one day AFTER the current ticking date
   const expirationDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-  const formattedExp = `${formatDateDisplay(expirationDate)}, 11:59 PM`;
+  const formattedExp = `${formatDateDisplay(expirationDate)}, 11:00 PM`;
 
   return (
     <div className="w-full h-[100dvh] bg-gray-100 sm:py-8 overflow-hidden select-none font-sans">
@@ -204,34 +204,32 @@ function TicketScreen({ data, onClose }: any) {
           </div>
         </div>
 
-        {/* Bottom Information Section */}
-        <div className="shrink-0 pb-[7vh] text-center px-6 flex flex-col items-center w-full">
-          
-          {/* Live Time (Big) and Date Segment */}
-          <div className="flex flex-col items-center mb-6 w-full">
-            <div className="text-[3.2rem] font-bold text-black tracking-tight tabular-nums leading-none mb-1.5 flex items-center justify-center w-full" style={{ letterSpacing: '-0.03em' }}>
+        {/* Bottom Information Card */}
+        <div className="shrink-0 pb-[7vh] px-[20px] w-full mt-8">
+          <div className="bg-white rounded-[24px] shadow-[0_8px_30px_-6px_rgba(0,0,0,0.15)] pt-8 pb-4 px-6 w-full flex flex-col relative z-20">
+            
+            {/* Live Time (Big) */}
+            <div className="text-[2.85rem] font-bold text-[#4a4b4e] tabular-nums leading-none mb-7 flex items-center justify-center w-full" style={{ transform: 'scaleX(1.08)' }}>
               {formattedTime}
             </div>
-            <div className="text-[15px] font-bold text-gray-500 tracking-[0.05em] uppercase">
-              {formattedLiveDate}
+            
+            {/* Ticket Info */}
+            <div className="w-full text-left">
+              <div className="text-[22px] font-semibold text-[#323336] leading-snug tracking-tight mb-[2px]">
+                {data.passName}
+              </div>
+              <div className="text-[14px] font-medium text-gray-400">
+                {data.location}
+              </div>
             </div>
+            
+            <div className="text-[13px] font-bold text-[#444] text-left mt-6">
+              Expires {formattedExp}
+            </div>
+            
+            {/* Divider */}
+            <div className="w-full h-[1.5px] bg-gray-200 mt-4 mb-2"></div>
           </div>
-          
-          {/* Ticket Info */}
-          <div className="text-[18px] font-bold text-black leading-snug mb-[2px]">
-            {data.passName}
-          </div>
-          <div className="text-[15px] font-bold text-gray-500">
-            {data.location}
-          </div>
-          
-          {/* Divider */}
-          <div className="w-full h-[1.5px] bg-gray-100 mt-6 mb-5"></div>
-          
-          <div className="text-[13px] font-bold text-gray-400">
-            Expires {formattedExp}
-          </div>
-          
         </div>
       </div>
     </div>
