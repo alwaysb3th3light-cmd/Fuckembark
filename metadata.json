@@ -1,6 +1,6 @@
 {
-  "name": "fuckembark",
-  "description": "Digital transit pass ticket viewer.",
+  "name": "Restored App",
+  "description": "App restored after files were cleared.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
