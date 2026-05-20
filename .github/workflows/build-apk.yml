@@ -27,7 +27,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '17'
+        java-version: '21'
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
@@ -41,10 +41,11 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.14.3'
+        validate-wrappers: false
 
     - name: Build APK
       working-directory: ./android
-      run: gradle assembleDebug
+      run: gradle assembleDebug --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
